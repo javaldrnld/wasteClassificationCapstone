@@ -1,0 +1,136 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environment
+env/
+venv/
+.wasteClassification-env/
+
+# Python virtualenv
+*.venv
+pip-log.txt
+pip-delete-this-directory.txt
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Data directories
+data/raw/
+data/processed/
+data/prepared/
+
+# Model directories
+models/mobilenetv2_ssd/
+models/mobilenetv2_classification/
+models/exported/
+
+# Logs and outputs
+outputs/logs/
+outputs/figures/
+outputs/detection_results/
+outputs/classification_results/
+
+# Experiment results
+experiments/*/
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# Jupyter Notebook specific
+*.ipynb
+*.checkpoint.ipynb
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Pyenv
+.python-version
+.pyenv/
+
+# PyCharm
+.idea/
+*.idea/
+*.iml
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Compiled source files
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.pyc
+*.dir
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+
+# Temporary files
+*.temp
+*.tmp
+*.swp
+*~
+
+# Ignore the output of Python cache
+__pycache__/
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore Jupyter Notebook metadata
+*.ipynb-meta
+
+# Environment variables
+.env
+.env.*
+
+# AWS credentials and config
+.aws/
