@@ -12,6 +12,7 @@ venv/
 .wasteClassification-env/
 .vscode/
 .python-version
+.dvc
 
 # Python virtualenv
 *.venv
@@ -26,6 +27,7 @@ pip-delete-this-directory.txt
 .ipynb_checkpoints/
 
 # Data directories
+data/
 data/raw/
 data/processed/
 data/prepared/
@@ -34,15 +36,18 @@ data/prepared/
 models/mobilenetv2_ssd/
 models/mobilenetv2_classification/
 models/exported/
+models/
 
 # Logs and outputs
 outputs/logs/
 outputs/figures/
 outputs/detection_results/
 outputs/classification_results/
+outputs/
 
 # Experiment results
 experiments/*/
+experiments/
 
 # Unit test / coverage reports
 htmlcov/
