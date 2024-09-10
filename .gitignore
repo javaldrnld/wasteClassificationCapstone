@@ -141,3 +141,4 @@ __pycache__/
 
 # AWS credentials and config
 .aws/
+models/
