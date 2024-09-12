@@ -40,60 +40,39 @@ def iterate_dir(
     test_dir = os.path.join(dest, "test")
     valid_dir = os.path.join(dest, "valid")
 
-    if not os.path.exists(train_dir):
-        os.makedirs(train_dir)
-    if not os.path.exists(test_dir):
-        os.makedirs(test_dir)
-    if not os.path.exists(valid_dir):
-        os.makedirs(valid_dir)
+    for dir in [train_dir, test_dir, valid_dir]:
+        os.makedirs(dir, exist_ok=True)
 
     file_pattern = re.compile(r"(?i)([a-zA-Z0-9\s_\\.\-():])+(\.jpg|\.jpeg|\.png)$")
 
     images = [file for file in os.listdir(source) if file_pattern.search(file)]
 
     num_images = len(images)
-    num_test_images = math.ceil(num_images * rat_test)
-    num_train_images = math.ceil(num_images * rat_train)
-    num_valid_images = math.ceil(num_images * rat_valid)
+    num_test_images = int(num_images * rat_test)
+    num_train_images = int(num_images * rat_train)
+    num_valid_images = num_images - num_test_images - num_train_images
 
-    for i in range(num_train_images):
-        idx = random.randint(0, len(images) - 1)
-        filename = images[idx]
-        copyfile(os.path.join(source, filename), os.path.join(train_dir, filename))
+    print(f"Total number of images: {num_images}")
+    print(
+        f"Splliting into {num_train_images} training images, {num_test_images} testing images and {num_valid_images} validation images"
+    )
 
-        if copy_xml:
-            xml_filename = os.path.splitext(filename)[0] + ".xml"
-            copyfile(
-                os.path.join(source, xml_filename),
-                os.path.join(train_dir, xml_filename),
-            )
-        images.remove(images[idx])
+    random.shuffle(images)
 
-    for i in range(num_test_images):
-        idx = random.randint(0, len(images) - 1)
-        filename = images[idx]
-        copyfile(os.path.join(source, filename), os.path.join(test_dir, filename))
+    def copy_files(file_list, target_dir):
+        for filename in file_list:
+            copyfile(os.path.join(source, filename), os.path.join(target_dir, filename))
+            if copy_xml:
+                xml_filename = os.path.splitext(filename)[0] + ".xml"
+                xml_source = os.path.join(source, xml_filename)
+                if os.path.exists(xml_source):
+                    copyfile(xml_source, os.path.join(target_dir, xml_filename))
 
-        if copy_xml:
-            xml_filename = os.path.splitext(filename)[0] + ".xml"
-            copyfile(
-                os.path.join(source, xml_filename),
-                os.path.join(test_dir, xml_filename),
-            )
-        images.remove(images[idx])
+    copy_files(images[:num_train_images], train_dir)
+    copy_files(images[num_train_images : num_train_images + num_test_images], test_dir)
+    copy_files(images[num_train_images + num_test_images :], valid_dir)
 
-    for i in range(num_valid_images):
-        idx = random.randint(0, len(images) - 1)
-        filename = images[idx]
-        copyfile(os.path.join(source, filename), os.path.join(valid_dir, filename))
-
-        if copy_xml:
-            xml_filename = os.path.splitext(filename)[0] + ".xml"
-            copyfile(
-                os.path.join(source, xml_filename),
-                os.path.join(valid_dir, xml_filename),
-            )
-        images.remove(images[idx])
+    print("Dataset partitioning complete!")
 
 
 def main() -> None:

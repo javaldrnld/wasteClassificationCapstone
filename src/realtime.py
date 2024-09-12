@@ -16,9 +16,11 @@ for gpu in gpus:
 
 
 PATH_TO_CFG = (
-    "/home/bokuto/Documents/Capstone/wasteClassification/outputs/pipeline.config"
+    "/home/bokuto/Documents/Capstone/wasteClassification/outputs/fpn_v2/pipeline.config"
 )
-PATH_TO_CKPT = "/home/bokuto/Documents/Capstone/wasteClassification/outputs/checkpoint/"
+PATH_TO_CKPT = (
+    "/home/bokuto/Documents/Capstone/wasteClassification/outputs/fpn_v2/checkpoint/"
+)
 
 print("Loading model... ", end="")
 
@@ -71,15 +73,29 @@ while True:
     label_id_offset = 1
     image_np_with_detections = image_np.copy()
 
+    # Apply Non-Maximum Suppression
+    nms_indices = tf.image.non_max_suppression(
+        detections["detection_boxes"],
+        detections["detection_scores"],
+        max_output_size=20,
+        iou_threshold=0.5,
+        score_threshold=0.80,
+    )
+
+    # Filter boxes, scores, and classes
+    nms_boxes = tf.gather(detections["detection_boxes"], nms_indices).numpy()
+    nms_scores = tf.gather(detections["detection_scores"], nms_indices).numpy()
+    nms_classes = tf.gather(detections["detection_classes"], nms_indices).numpy()
+
     viz_utils.visualize_boxes_and_labels_on_image_array(
         image_np_with_detections,
-        detections["detection_boxes"],
-        detections["detection_classes"] + label_id_offset,
-        detections["detection_scores"],
+        nms_boxes,
+        nms_classes + label_id_offset,
+        nms_scores,
         category_index,
         use_normalized_coordinates=True,
         max_boxes_to_draw=200,
-        min_score_thresh=0.30,
+        min_score_thresh=0.80,
         agnostic_mode=False,
     )
 

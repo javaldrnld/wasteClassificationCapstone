@@ -39,17 +39,15 @@ def load_local_images():
             image_path = pathlib.Path(image_path)
             image_paths.append(str(image_path))
 
-    return random.sample(image_paths, 5) if len(image_paths) > 5 else image_paths
+    return random.sample(image_paths, 6) if len(image_paths) > 6 else image_paths
 
 
 IMAGE_PATHS = load_local_images()
 
 # Load pipeline config and build a detection model
 
-PATH_TO_CFG = (
-    "/home/bokuto/Documents/Capstone/wasteClassification/outputs/pipeline.config"
-)
-PATH_TO_CKPT = "/home/bokuto/Documents/Capstone/wasteClassification/outputs/checkpoint/"
+PATH_TO_CFG = "/home/bokuto/Documents/Capstone/wasteClassification/outputs/efficient_do/pipeline.config"
+PATH_TO_CKPT = "/home/bokuto/Documents/Capstone/wasteClassification/outputs/efficient_do/checkpoint/"
 
 print("Loading model... ", end="")
 start_time = time.time()
@@ -96,7 +94,7 @@ def load_image_into_numpy_array(path):
 
 plt.figure(figsize=(15, 12))
 for i, image_path in enumerate(IMAGE_PATHS, 1):
-    print(f"Processing image {i} of 5: {image_path}")
+    print(f"Processing image {i} of 10: {image_path}")
 
     image_np = load_image_into_numpy_array(image_path)
     print(f"Image shape: {image_np.shape}")
